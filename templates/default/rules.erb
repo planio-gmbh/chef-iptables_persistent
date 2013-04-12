@@ -1,0 +1,18 @@
+<%- extend IptablesPersistent::TemplateHelpers -%>
+# Firewall Rules for <%= @protocol %>
+#
+# This script was automatically created by Chef.
+# All manual changes are going to be overridden
+#
+# Source: iptables-persistent::templates/default/rules.erb
+
+*filter
+<% node["iptables-persistent"][@protocol]["defaults"].sort.each do |chain, default| -%>
+:<%= chain %> <%= default %> [0:0]
+<%- end %>
+
+<% rules(@protocol).each do |rule| -%>
+<%= rule %>
+<%- end %>
+
+COMMIT
