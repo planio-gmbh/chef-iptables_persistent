@@ -1,4 +1,4 @@
 language: ruby
 rvm:
   - 1.9.3
-script: "foodcritic -C --epic-fail any ."
+script: "bundle exec foodcritic -C --epic-fail any ."
