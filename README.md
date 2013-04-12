@@ -17,22 +17,22 @@ Attributes
     <th>Default</th>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["dir"]`</td>
+    <td><tt>["iptables-persistent"]["dir"]</tt></td>
     <td>String</td>
     <td>The configuration directory</td>
-    <td>`/etc/iptables`</td>
+    <td><tt>/etc/iptables</tt></td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["rules_v4"]`</td>
+    <td><tt>["iptables-persistent"]["rules_v4"]</tt></td>
     <td>String</td>
     <td>The name of the rules file for IPv4 rules</td>
-    <td>`rules` or `rules.v4` depending on the platform</td>
+    <td><tt>rules</tt> or <tt>rules.v4</tt>, depending on the platform</td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["rules_v6"]`</td>
+    <td><tt>["iptables-persistent"]["rules_v6"]</tt></td>
     <td>String</td>
     <td>The name of the rules file for IPv6 rules</td>
-    <td>`rules.v6`</td>
+    <td><tt>rules.v6</tt></td>
   </tr>
 </table>
 
@@ -48,7 +48,7 @@ If a rule simply consist of an interer, it will result in a rule hat will
 open this protocol port (typically UDP or TCP) on the INPUT chain for all.
 The generated rule will be similar to this:
 
-    -A INPUT -p TCP --dport 22 -j ACCEPT
+    -A INPUT -p tcp --dport 22 -j ACCEPT
 
 #### String
 
@@ -69,70 +69,70 @@ keys to define a single rule:
     <th>Default</th>
   </tr>
   <tr>
-    <td>`protocol`</td>
+    <td><tt>protocol</tt></td>
     <td>String</td>
-    <td>The protocol (udp, tcp, icmp, ...). This attribute is only settable in `any_pre` and `any_post` rules. Else it is the same as the rule section.</td>
+    <td>The protocol (udp, tcp, icmp, ...). This attribute is only settable in <tt>any_pre</tt> and <tt>any_post</tt> rules. Else it is the same as the rule section.</td>
     <td>contained rule section or emtpy</td>
   </tr>
   <tr>
-    <td>`chain`</td>
+    <td><tt>chain</tt></td>
     <td>String</td>
     <td>The iptables chain, typically either INPUT, OUTPUT, or FORWARD</td>
-    <td>INPUT</td>
+    <td><tt>INPUT</tt></td>
   </tr>
   <tr>
-    <td>`source`</td>
+    <td><tt>source</tt></td>
     <td>String</td>
     <td>A single IP or a network specification of the source IP</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
   <tr>
-    <td>`destination`</td>
+    <td><tt>destination</tt></td>
     <td>String</td>
     <td>A single IP or a network specification of the destination IP</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
   <tr>
-    <td>`interface`</td>
+    <td><tt>interface</tt></td>
     <td>String</td>
     <td>The network interface (outgoing interface for OUTPUT chain, incommine interface for all others)</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
   <tr>
-    <td>`state`</td>
-    <td>String or Array or Strings</td>
+    <td><tt>state</tt></td>
+    <td>Array of Strings</td>
     <td>Possible connection state</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
   <tr>
-    <td>`port`</td>
+    <td><tt>port</tt></td>
     <td>String or Integer</td>
     <td>The destination port of the packet</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
   <tr>
-    <td>`source_port`</td>
+    <td><tt>source_port</tt></td>
     <td>String or Integer</td>
     <td>The source port of the packet</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
   <tr>
-    <td>`opts`</td>
+    <td><tt>opts</tt></td>
     <td>Array of Strings</td>
     <td>Additional free-form conditions. This array is just concatenated at the end</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
   <tr>
-    <td>`target`</td>
+    <td><tt>target</tt></td>
     <td>String</td>
-    <td>The target of the rule. Either another chain or a decision or ACCEPT, REJECT, or DROP</td>
-    <td>ACCEPT</td>
+    <td>The target of the rule. Either another chain or a decision of <tt>ACCEPT</tt>, <tt>REJECT</tt>, or <tt>DROP</tt></td>
+    <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td>`comment`</td>
+    <td><tt>comment</tt></td>
     <td>String</td>
     <td>An optional comment which is appended at the end of the line</td>
-    <td>*no default*</td>
+    <td><em>no default</em></td>
   </tr>
 </table>
 
@@ -153,43 +153,43 @@ Generally, it is recommended to use `default` in roles.
     <th>Default</th>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv4"]["defaults"]["INPUT"]`</td>
+    <td><tt>["iptables-persistent"]["ipv4"]["defaults"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 INPUT chain</td>
-    <td>`ACCEPT`</td>
+    <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv4"]["defaults"]["OUTPUT"]`</td>
+    <td><tt>["iptables-persistent"]["ipv4"]["defaults"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
-    <td>`ACCEPT`</td>
+    <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv4"]["defaults"]["FORWARD"]`</td>
+    <td><tt>["iptables-persistent"]["ipv4"]["defaults"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
-    <td>`ACCEPT`</td>
+    <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv4"]["any_pre"]`</td>
+    <td><tt>["iptables-persistent"]["ipv4"]["any_pre"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>non-protocol-specific rules for the IPv4 firewall. These rules are evaluated first.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv4"]["tcp"]`</td>
+    <td><tt>["iptables-persistent"]["ipv4"]["tcp"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>TCP-specific rules for the IPv4 firewall.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv4"]["udp"]`</td>
+    <td><tt>["iptables-persistent"]["ipv4"]["udp"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>UDP-specific rules for the IPv4 firewall.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv4"]["any_post"]`</td>
+    <td><tt>["iptables-persistent"]["ipv4"]["any_post"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>non-protocol-specific rules for the IPv4 firewall. These rules are evaluated last.</td>
     <td>empty Array</td>
@@ -211,31 +211,24 @@ Rules are evaulated exactly the same as for IPv4.
     <th>Default</th>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv6"]["defaults"]["INPUT"]`</td>
+    <td><tt>["iptables-persistent"]["ipv6"]["defaults"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 INPUT chain</td>
-    <td>`ACCEPT`</td>
+    <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv6"]["defaults"]["OUTPUT"]`</td>
+    <td><tt>["iptables-persistent"]["ipv6"]["defaults"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
-    <td>`ACCEPT`</td>
+    <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td>`["iptables-persistent"]["ipv6"]["defaults"]["FORWARD"]`</td>
+    <td><tt>["iptables-persistent"]["ipv6"]["defaults"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
-    <td>`ACCEPT`</td>
+    <td><tt>ACCEPT</tt></td>
   </tr>
 </table>
-
-
-default["iptables-persistent"]["ipv4"]["any_pre"] = []
-default["iptables-persistent"]["ipv4"]["tcp"] = []
-default["iptables-persistent"]["ipv4"]["udp"] = []
-default["iptables-persistent"]["ipv4"]["any_post"] = []
-
 
 Usage
 -----
@@ -262,9 +255,9 @@ This will include the `default` recipe and will configure it with some secure
 defaults for a minimally working firewall:
 
 * Drop any IPv6 traffic
+* Allow traffic on the loopback adapter
 * Allow only established incomming and forwarded traffic on IPv4 by default
-* Allow all ICMP traffic on IPv4
-* Allow IPv4 traffic from the local host to the local IP and back
+* Allow important ICMP traffic on IPv4
 * Allow Traffic to SSH (Port 22) on IPv4
 
 If you extend these rules, make sure to add rules on the `default` level.
