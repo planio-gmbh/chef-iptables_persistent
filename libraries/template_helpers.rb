@@ -38,7 +38,10 @@ module IptablesPersistent
         when Numeric
           "-A INPUT #{"-p #{force_protocol}" if force_protocol} --dport #{rule.to_i} -j ACCEPT"
         when Hash
-          rule["protocol"] = force_protocol if force_protocol
+          if force_protocol
+            rule["protocol"] = force_protocol
+            rule.delete("!protocol")
+          end
           rule["chain"] ||= "INPUT"
           rule["target"] ||= "ACCEPT"
 
