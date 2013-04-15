@@ -7,12 +7,21 @@
 # Source: iptables-persistent::templates/default/rules.erb
 
 *filter
-<% node["iptables-persistent"][@protocol]["defaults"].sort.each do |chain, default| -%>
+<% defaults, default_rules = node["iptables-persistent"][@protocol]["defaults"].sort.partition{|default| %w[ACCEPT DROP].include? default[1]} -%>
+<% defaults.each do |chain, default| -%>
 :<%= chain %> <%= default %> [0:0]
+<%- end %>
+<% default_rules.each do |chain, default| -%>
+:<%= chain %> ACCEPT [0:0] # final rule: <%= default %>
 <%- end %>
 
 <% rules(@protocol).each do |rule| -%>
 <%= rule %>
+<%- end %>
+
+<%- if default_rules.any? %>### DEFAULT RULES<% end %>
+<% default_rules.each do |chain, default| -%>
+-A <%= chain %> -j <%= default %>
 <%- end %>
 
 COMMIT
