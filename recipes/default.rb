@@ -36,7 +36,18 @@ end
     mode "0644"
 
     variables :protocol => "ip#{version}"
-    notifies :start, "service[iptables-persistent]", :immediately
+    notifies :create, "ruby_block[restart iptables-persistent]", :immediately
+  end
+end
+
+ruby_block "restart iptables-persistent" do
+  action :nothing
+  block do
+    fail2ban = resources(:service => "fail2ban") rescue nil
+
+    fail2ban.run_action(:stop) if fail2ban
+    resources(:service => "iptables-persistent").run_action(:start)
+    fail2ban.run_action(:start) if fail2ban
   end
 end
 
