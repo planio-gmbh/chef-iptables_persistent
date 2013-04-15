@@ -26,7 +26,7 @@ module IptablesPersistent
 
         if added_rules.any?
           rules << nil if rules.any?
-          rules << "### RULES FOR #{rule_type}"
+          rules << "### #{rule_type.upcase} RULES"
         end
         rules += added_rules
       end
@@ -42,7 +42,9 @@ module IptablesPersistent
           rule["chain"] ||= "INPUT"
           rule["target"] ||= "ACCEPT"
 
-          str = "-A #{rule["chain"]}"
+          str = ""
+          str << "# #{rule["comment"]}\n" if rule["comment"]
+          str << "-A #{rule["chain"]}"
           str << rule_part(rule, "source"){ |neg, v| "#{neg} -s #{IPAddress.parse(v).to_string}" }
           str << rule_part(rule, "destination"){ |neg, v| "#{neg} -d #{IPAddress.parse(v).to_string}" }
           str << rule_part(rule, "interface") do |neg, v|
@@ -56,7 +58,6 @@ module IptablesPersistent
           opts = (rule["opts"] || []).to_a.flatten.compact
           str << " " << opts.join(" ") if opts.any?
           str << " -j #{rule["target"]}"
-          str << " # #{rule["comment"]}" if rule["comment"]
           str
         else
           rule
