@@ -48,6 +48,7 @@ module IptablesPersistent
           str = ""
           str << "# #{rule["comment"]}\n" if rule["comment"]
           str << "-A #{rule["chain"]}"
+          str << rule_part(rule, "protocol"){ |neg, v| "#{neg} -p #{v}" }
           str << rule_part(rule, "source"){ |neg, v| "#{neg} -s #{IPAddress.parse(v).to_string}" }
           str << rule_part(rule, "destination"){ |neg, v| "#{neg} -d #{IPAddress.parse(v).to_string}" }
           str << rule_part(rule, "interface") do |neg, v|
@@ -55,7 +56,6 @@ module IptablesPersistent
             "#{neg} #{selector} #{v}"
           end
           str << " -m state --state #{Array(rule["state"]).map{|s| s.to_s.upcase}.join(",")}" if rule["state"]
-          str << rule_part(rule, "protocol"){ |neg, v| "#{neg} -p #{v}" }
           str << rule_part(rule, "port") do |neg, v|
             ports = Array(v)
             ports.count > 1 ? " -m multiport#{neg} --dports #{ports.join(",")}" : "#{neg} --dport #{v}"
