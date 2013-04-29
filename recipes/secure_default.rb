@@ -76,7 +76,7 @@ prepend_rules "ipv4", "icmp", [
 ]
 
 prepend_rules "ipv4", "tcp", [
-  {"port" => 22, "comment" => "Allways allow at least Port 22 (SSH)"}
+  {"port" => 22, "comment" => "Always allow at least Port 22 (SSH)"}
 ]
 
 # completely disable ipv6 traffic
