@@ -18,7 +18,7 @@
 module IptablesPersistent
   module TemplateHelpers
     def rules(ip_proto)
-      rule_types = ["any_pre"] + (node["iptables-persistent"][ip_proto].keys.sort - %w[any_pre any_post defaults]) + ["any_post"]
+      rule_types = ["any_pre"] + (node["iptables-persistent"][ip_proto].keys.sort - %w[any_pre any_post defaults nat]) + ["any_post"]
 
       rule_types.inject([]) do |rules, rule_type|
         force_protocol = %w[any_pre any_post].include?(rule_type) ? nil : rule_type
@@ -30,6 +30,10 @@ module IptablesPersistent
         end
         rules += added_rules
       end
+    end
+
+    def nat_rules(ip_proto)
+      expand_rules(node["iptables-persistent"][ip_proto]["nat"], nil)
     end
 
     def expand_rules(raw_rules, force_protocol=nil)

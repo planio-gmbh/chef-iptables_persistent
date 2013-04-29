@@ -34,6 +34,7 @@ default["iptables-persistent"]["ipv4"]["any_pre"] = []
 default["iptables-persistent"]["ipv4"]["tcp"] = []
 default["iptables-persistent"]["ipv4"]["udp"] = []
 default["iptables-persistent"]["ipv4"]["any_post"] = []
+default["iptables-persistent"]["ipv6"]["nat"] = []
 
 # Fail open to make sure the system isn't killed when unconfigured
 default["iptables-persistent"]["ipv6"]["defaults"]["INPUT"] = "ACCEPT"

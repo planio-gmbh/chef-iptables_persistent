@@ -25,3 +25,12 @@
 <%- end %>
 
 COMMIT
+
+<% if @protocol == "ipv4" && (nat = nat_rules("ipv4")).any? %>
+*nat
+<% nat.each do |rule| -%>
+<%= rule %>
+<%- end %>
+
+COMMIT
+<% end %>
