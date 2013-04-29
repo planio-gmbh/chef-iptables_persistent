@@ -33,6 +33,7 @@ default["iptables-persistent"]["ipv4"]["defaults"]["FORWARD"] = "ACCEPT"
 default["iptables-persistent"]["ipv4"]["any_pre"] = []
 default["iptables-persistent"]["ipv4"]["tcp"] = []
 default["iptables-persistent"]["ipv4"]["udp"] = []
+default["iptables-persistent"]["ipv4"]["icmp"] = []
 default["iptables-persistent"]["ipv4"]["any_post"] = []
 default["iptables-persistent"]["ipv6"]["nat"] = []
 
@@ -44,4 +45,5 @@ default["iptables-persistent"]["ipv6"]["defaults"]["FORWARD"] = "ACCEPT"
 default["iptables-persistent"]["ipv6"]["any_pre"] = []
 default["iptables-persistent"]["ipv6"]["tcp"] = []
 default["iptables-persistent"]["ipv6"]["udp"] = []
+default["iptables-persistent"]["ipv6"]["icmp"] = []
 default["iptables-persistent"]["ipv6"]["any_post"] = []
