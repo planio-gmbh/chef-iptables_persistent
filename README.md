@@ -153,19 +153,19 @@ Generally, it is recommended to use `default` in roles.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["defaults"]["INPUT"]</tt></td>
+    <td><tt>["iptables-persistent"]["ipv4"]["chains"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 INPUT chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["defaults"]["OUTPUT"]</tt></td>
+    <td><tt>["iptables-persistent"]["ipv4"]["chains"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["defaults"]["FORWARD"]</tt></td>
+    <td><tt>["iptables-persistent"]["ipv4"]["chains"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
@@ -211,19 +211,19 @@ Rules are evaulated exactly the same as for IPv4.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv6"]["defaults"]["INPUT"]</tt></td>
+    <td><tt>["iptables-persistent"]["ipv6"]["chains"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 INPUT chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv6"]["defaults"]["OUTPUT"]</tt></td>
+    <td><tt>["iptables-persistent"]["ipv6"]["chains"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv6"]["defaults"]["FORWARD"]</tt></td>
+    <td><tt>["iptables-persistent"]["ipv6"]["chains"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>

@@ -21,9 +21,9 @@ include_recipe "iptables-persistent"
 
 extend IptablesPersistent::RecipeHelpers
 
-node.default["iptables-persistent"]["ipv4"]["defaults"]["INPUT"] = "DROP"
-node.default["iptables-persistent"]["ipv4"]["defaults"]["OUTPUT"] = "ACCEPT"
-node.default["iptables-persistent"]["ipv4"]["defaults"]["FORWARD"] = "DROP"
+node.default["iptables-persistent"]["ipv4"]["chains"]["INPUT"] = "DROP"
+node.default["iptables-persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
+node.default["iptables-persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
 
 prepend_rules "ipv4", "any_pre", [
   "# allow any traffic over loopback",
@@ -80,9 +80,9 @@ prepend_rules "ipv4", "tcp", [
 ]
 
 # completely disable ipv6 traffic
-node.default["iptables-persistent"]["ipv6"]["defaults"]["INPUT"] = "DROP"
-node.default["iptables-persistent"]["ipv6"]["defaults"]["OUTPUT"] = "DROP"
-node.default["iptables-persistent"]["ipv6"]["defaults"]["FORWARD"] = "DROP"
+node.default["iptables-persistent"]["ipv6"]["chains"]["INPUT"] = "DROP"
+node.default["iptables-persistent"]["ipv6"]["chains"]["OUTPUT"] = "DROP"
+node.default["iptables-persistent"]["ipv6"]["chains"]["FORWARD"] = "DROP"
 
 # Set some kernel parameters for proper ICMP handling
 file '/etc/sysctl.d/60-iptables-persistent.conf' do

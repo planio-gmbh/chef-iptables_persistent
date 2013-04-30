@@ -26,9 +26,9 @@ end
 default["iptables-persistent"]["rules_v6"] = "rules.v6"
 
 # Fail open to make sure the system isn't killed when unconfigured
-default["iptables-persistent"]["ipv4"]["defaults"]["INPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv4"]["defaults"]["OUTPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv4"]["defaults"]["FORWARD"] = "ACCEPT"
+default["iptables-persistent"]["ipv4"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables-persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables-persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
 
 default["iptables-persistent"]["ipv4"]["any_pre"] = []
 default["iptables-persistent"]["ipv4"]["tcp"] = []
@@ -38,9 +38,9 @@ default["iptables-persistent"]["ipv4"]["any_post"] = []
 default["iptables-persistent"]["ipv6"]["nat"] = []
 
 # Fail open to make sure the system isn't killed when unconfigured
-default["iptables-persistent"]["ipv6"]["defaults"]["INPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv6"]["defaults"]["OUTPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv6"]["defaults"]["FORWARD"] = "ACCEPT"
+default["iptables-persistent"]["ipv6"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables-persistent"]["ipv6"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables-persistent"]["ipv6"]["chains"]["FORWARD"] = "ACCEPT"
 
 default["iptables-persistent"]["ipv6"]["any_pre"] = []
 default["iptables-persistent"]["ipv6"]["tcp"] = []
