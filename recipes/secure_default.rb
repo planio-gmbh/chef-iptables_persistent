@@ -31,7 +31,10 @@ prepend_rules "ipv4", "any_pre", [
   {"chain" => "OUTPUT", "interface" => "lo"},
 
   {"!interface" => "lo", "destination" => "127.0.0.1/8", "target" => "REJECT", "comment" => "Reject any traffic from or to 127/0 that doesn't involve the loopback interface."},
-  {"protocol" => "tcp", "state" => "NEW", "opts" => ["! --syn"], "target" => "DROP", "comment" => "Drop any TCP packet that does not start a connection with a syn flag."},
+  {"protocol" => "tcp", "state" => "NEW", "opts" => ["! --syn"], "target" => "DROP", "comment" => "Drop suspicious TCP traffic"},
+  {"protocol" => "tcp", "opts" => ["--fragment"], "target" => "DROP"}, # Fragmented packets
+  {"protocol" => "tcp", "opts" => ["--tcp-flags", "ALL", "ALL"], "target" => "DROP"}, # XMAS packets
+  {"protocol" => "tcp", "opts" => ["--tcp-flags", "ALL", "NONE"], "target" => "DROP"}, # NULL packet
 
   {"chain" => "INPUT", "state" => %w[ESTABLISHED RELATED], "comment" => "Allow established or related traffic to any chain."},
   {"chain" => "OUTPUT", "state" => %w[ESTABLISHED RELATED]},
