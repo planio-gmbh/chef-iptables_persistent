@@ -1,7 +1,7 @@
-iptables-persistent Cookbook
+iptables_persistent Cookbook
 ============================
 
-This cookbook configures iptables-persistent to setup a full firewall based on
+This cookbook configures iptables_persistent to setup a full firewall based on
 node attributes, settable in roles.
 
 Attributes
@@ -17,19 +17,19 @@ Attributes
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["dir"]</tt></td>
+    <td><tt>["iptables_persistent"]["dir"]</tt></td>
     <td>String</td>
     <td>The configuration directory</td>
     <td><tt>/etc/iptables</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["rules_v4"]</tt></td>
+    <td><tt>["iptables_persistent"]["rules_v4"]</tt></td>
     <td>String</td>
     <td>The name of the rules file for IPv4 rules</td>
     <td><tt>rules</tt> or <tt>rules.v4</tt>, depending on the platform</td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["rules_v6"]</tt></td>
+    <td><tt>["iptables_persistent"]["rules_v6"]</tt></td>
     <td>String</td>
     <td>The name of the rules file for IPv6 rules</td>
     <td><tt>rules.v6</tt></td>
@@ -136,6 +136,8 @@ keys to define a single rule:
   </tr>
 </table>
 
+### Where to define rules
+
 The rules can then be appended to the respective section arrays described
 below. You can set the rules in different roles where they will be merged
 at the end. You just have to make sure to always use the same attribute level
@@ -153,43 +155,43 @@ Generally, it is recommended to use `default` in roles.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["chains"]["INPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["chains"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 INPUT chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["chains"]["OUTPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["chains"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["chains"]["FORWARD"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["chains"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["any_pre"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["any_pre"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>non-protocol-specific rules for the IPv4 firewall. These rules are evaluated first.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["tcp"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["tcp"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>TCP-specific rules for the IPv4 firewall.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["udp"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["udp"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>UDP-specific rules for the IPv4 firewall.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv4"]["any_post"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["any_post"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>non-protocol-specific rules for the IPv4 firewall. These rules are evaluated last.</td>
     <td>empty Array</td>
@@ -198,7 +200,7 @@ Generally, it is recommended to use `default` in roles.
 
 #### IPv6 rules
 
-Note: these rules are only evaluated if the `iptables-persistent` package
+Note: these rules are only evaluated if the `iptables_persistent` package
 available on the node is recent enough, i.e. >= 0.0.20101230.
 
 Rules are evaulated exactly the same as for IPv4.
@@ -211,19 +213,19 @@ Rules are evaulated exactly the same as for IPv4.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv6"]["chains"]["INPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv6"]["chains"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 INPUT chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv6"]["chains"]["OUTPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv6"]["chains"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables-persistent"]["ipv6"]["chains"]["FORWARD"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv6"]["chains"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
@@ -232,24 +234,24 @@ Rules are evaulated exactly the same as for IPv4.
 
 Usage
 -----
-#### iptables-persistent::default
+#### iptables_persistent::default
 
-Just include `iptables-persistent` in your node's `run_list`:
+Just include `iptables_persistent` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[iptables-persistent]"
+    "recipe[iptables_persistent]"
   ]
 }
 ```
 
-This will install iptables-persistent and will setup basic firewall rules.
+This will install iptables_persistent and will setup basic firewall rules.
 The firewall fill default to accept everything. You will need to configure
 rules in roles or application cookbooks.
 
-#### iptables-persistent::secure_default
+#### iptables_persistent::secure_default
 
 This will include the `default` recipe and will configure it with some secure
 defaults for a minimally working firewall:

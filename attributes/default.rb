@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: iptables-persistent
+# Cookbook Name:: iptables_persistent
 #
 # Copyright 2013, Planio GmbH
 #
@@ -16,34 +16,34 @@
 # limitations under the License.
 #
 
-default["iptables-persistent"]["dir"] = "/etc/iptables"
+default["iptables_persistent"]["dir"] = "/etc/iptables"
 if platform == "debian" && node["platform_version"].to_f < 7 ||
    platform == "ubuntu" && node["platform_version"].to_f < 12
-  default["iptables-persistent"]["rules_v4"] = "rules"
+  default["iptables_persistent"]["rules_v4"] = "rules"
 else
-  default["iptables-persistent"]["rules_v4"] = "rules.v4"
+  default["iptables_persistent"]["rules_v4"] = "rules.v4"
 end
-default["iptables-persistent"]["rules_v6"] = "rules.v6"
+default["iptables_persistent"]["rules_v6"] = "rules.v6"
 
 # Fail open to make sure the system isn't killed when unconfigured
-default["iptables-persistent"]["ipv4"]["chains"]["INPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
 
-default["iptables-persistent"]["ipv4"]["any_pre"] = []
-default["iptables-persistent"]["ipv4"]["tcp"] = []
-default["iptables-persistent"]["ipv4"]["udp"] = []
-default["iptables-persistent"]["ipv4"]["icmp"] = []
-default["iptables-persistent"]["ipv4"]["any_post"] = []
-default["iptables-persistent"]["ipv6"]["nat"] = []
+default["iptables_persistent"]["ipv4"]["any_pre"] = []
+default["iptables_persistent"]["ipv4"]["tcp"] = []
+default["iptables_persistent"]["ipv4"]["udp"] = []
+default["iptables_persistent"]["ipv4"]["icmp"] = []
+default["iptables_persistent"]["ipv4"]["any_post"] = []
+default["iptables_persistent"]["ipv6"]["nat"] = []
 
 # Fail open to make sure the system isn't killed when unconfigured
-default["iptables-persistent"]["ipv6"]["chains"]["INPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv6"]["chains"]["OUTPUT"] = "ACCEPT"
-default["iptables-persistent"]["ipv6"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["chains"]["FORWARD"] = "ACCEPT"
 
-default["iptables-persistent"]["ipv6"]["any_pre"] = []
-default["iptables-persistent"]["ipv6"]["tcp"] = []
-default["iptables-persistent"]["ipv6"]["udp"] = []
-default["iptables-persistent"]["ipv6"]["icmp"] = []
-default["iptables-persistent"]["ipv6"]["any_post"] = []
+default["iptables_persistent"]["ipv6"]["any_pre"] = []
+default["iptables_persistent"]["ipv6"]["tcp"] = []
+default["iptables_persistent"]["ipv6"]["udp"] = []
+default["iptables_persistent"]["ipv6"]["icmp"] = []
+default["iptables_persistent"]["ipv6"]["any_post"] = []

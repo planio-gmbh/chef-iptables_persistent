@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: iptables-persistent
+# Cookbook Name:: iptables_persistent
 # Recipe:: default
 #
 # Copyright 2013, Planio GmbH
@@ -23,13 +23,13 @@ package "iptables-persistent"
 chef_gem "ipaddress"
 require "ipaddress"
 
-directory node["iptables-persistent"]["dir"] do
+directory node["iptables_persistent"]["dir"] do
   action :create
 end
 
 %w[v4 v6].each do |version|
-  template "iptable-persistent_#{version}" do
-    path "#{node["iptables-persistent"]["dir"]}/#{node["iptables-persistent"]["rules_#{version}"]}"
+  template "iptables-persistent_#{version}" do
+    path "#{node["iptables_persistent"]["dir"]}/#{node["iptables_persistent"]["rules_#{version}"]}"
     source "rules.erb"
     owner "root"
     group "root"

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: iptables-persistent
+# Cookbook Name:: iptables_persistent
 #
 # Copyright 2013, Planio GmbH
 #

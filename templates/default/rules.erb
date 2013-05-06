@@ -4,10 +4,10 @@
 # This script was automatically created by Chef.
 # All manual changes are going to be overridden
 #
-# Source: iptables-persistent::templates/default/rules.erb
+# Source: iptables_persistent::templates/default/rules.erb
 
 *filter
-<% defaults, default_rules = node["iptables-persistent"][@protocol]["chains"].sort.partition{|default| %w[ACCEPT DROP -].include? default[1]} -%>
+<% defaults, default_rules = node["iptables_persistent"][@protocol]["chains"].sort.partition{|default| %w[ACCEPT DROP -].include? default[1]} -%>
 <% defaults.each do |chain, default| -%>
 :<%= chain %> <%= default %> [0:0]
 <%- end %>

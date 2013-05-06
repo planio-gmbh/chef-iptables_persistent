@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: iptables-persistent
+# Cookbook Name:: iptables_persistent
 # Recipe:: simple_firewall
 #
 # Copyright 2013, Planio GmbH
@@ -17,13 +17,13 @@
 # limitations under the License.
 #
 
-include_recipe "iptables-persistent"
+include_recipe "iptables_persistent"
 
 extend IptablesPersistent::RecipeHelpers
 
-node.default["iptables-persistent"]["ipv4"]["chains"]["INPUT"] = "DROP"
-node.default["iptables-persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
-node.default["iptables-persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
+node.default["iptables_persistent"]["ipv4"]["chains"]["INPUT"] = "DROP"
+node.default["iptables_persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
+node.default["iptables_persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
 
 prepend_rules "ipv4", "any_pre", [
   "# allow any traffic over loopback",
