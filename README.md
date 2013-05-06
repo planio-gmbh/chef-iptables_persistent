@@ -147,6 +147,16 @@ levels. E.g. if you have set some rules in `default` and then set some in
 
 Generally, it is recommended to use `default` in roles.
 
+Using the rules hash, you can define rules for all tables available to
+iptables. The table below describes the default rules for the `filter` table
+which contains the most commonly used rules. For `ipv4`, there are the
+`filter`, `nat`, `mangle`, and `raw` tables. For `ipv6` there are the
+`filter`, `mangle`, and `raw` tables. Please refer to the iptables
+documentation about the use of these tables and the default chains available.
+
+For some example on how to set rules, please have a look at the
+`secure_default` recipe.
+
 <table>
   <tr>
     <th>Key</th>
@@ -155,43 +165,43 @@ Generally, it is recommended to use `default` in roles.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv4"]["chains"]["INPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["filter"]["chains"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 INPUT chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv4"]["chains"]["OUTPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["filter"]["chains"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv4"]["chains"]["FORWARD"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["filter"]["chains"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv4 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv4"]["any_pre"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["filter"]["any_pre"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>non-protocol-specific rules for the IPv4 firewall. These rules are evaluated first.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv4"]["tcp"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["filter"]["tcp"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>TCP-specific rules for the IPv4 firewall.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv4"]["udp"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["filter"]["udp"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>UDP-specific rules for the IPv4 firewall.</td>
     <td>empty Array</td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv4"]["any_post"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv4"]["filter"]["any_post"]</tt></td>
     <td>Array of Integers, Strings or Hashes</td>
     <td>non-protocol-specific rules for the IPv4 firewall. These rules are evaluated last.</td>
     <td>empty Array</td>
@@ -213,22 +223,46 @@ Rules are evaulated exactly the same as for IPv4.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv6"]["chains"]["INPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv6"]["filter"]["chains"]["INPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 INPUT chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv6"]["chains"]["OUTPUT"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv6"]["filter"]["chains"]["OUTPUT"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
   </tr>
   <tr>
-    <td><tt>["iptables_persistent"]["ipv6"]["chains"]["FORWARD"]</tt></td>
+    <td><tt>["iptables_persistent"]["ipv6"]["filter"]["chains"]["FORWARD"]</tt></td>
     <td>String</td>
     <td>The default action for the IPv6 FORWARD chain</td>
     <td><tt>ACCEPT</tt></td>
+  </tr>
+  <tr>
+    <td><tt>["iptables_persistent"]["ipv6"]["filter"]["any_pre"]</tt></td>
+    <td>Array of Integers, Strings or Hashes</td>
+    <td>non-protocol-specific rules for the IPv6 firewall. These rules are evaluated first.</td>
+    <td>empty Array</td>
+  </tr>
+  <tr>
+    <td><tt>["iptables_persistent"]["ipv6"]["filter"]["tcp"]</tt></td>
+    <td>Array of Integers, Strings or Hashes</td>
+    <td>TCP-specific rules for the IPv6 firewall.</td>
+    <td>empty Array</td>
+  </tr>
+  <tr>
+    <td><tt>["iptables_persistent"]["ipv6"]["filter"]["udp"]</tt></td>
+    <td>Array of Integers, Strings or Hashes</td>
+    <td>UDP-specific rules for the IPv6 firewall.</td>
+    <td>empty Array</td>
+  </tr>
+  <tr>
+    <td><tt>["iptables_persistent"]["ipv6"]["filter"]["any_post"]</tt></td>
+    <td>Array of Integers, Strings or Hashes</td>
+    <td>non-protocol-specific rules for the IPv6 firewall. These rules are evaluated last.</td>
+    <td>empty Array</td>
   </tr>
 </table>
 

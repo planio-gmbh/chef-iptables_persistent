@@ -21,11 +21,11 @@ include_recipe "iptables_persistent"
 
 extend IptablesPersistent::RecipeHelpers
 
-node.default["iptables_persistent"]["ipv4"]["chains"]["INPUT"] = "DROP"
-node.default["iptables_persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
-node.default["iptables_persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
+node.default["iptables_persistent"]["ipv4"]["filter"]["chains"]["INPUT"] = "DROP"
+node.default["iptables_persistent"]["ipv4"]["filter"]["chains"]["OUTPUT"] = "ACCEPT"
+node.default["iptables_persistent"]["ipv4"]["filter"]["chains"]["FORWARD"] = "ACCEPT"
 
-prepend_rules "ipv4", "any_pre", [
+prepend_rules "ipv4", "filter", "any_pre", [
   "# allow any traffic over loopback",
   {"chain" => "INPUT", "interface" => "lo"},
   {"chain" => "OUTPUT", "interface" => "lo"},
@@ -43,7 +43,7 @@ prepend_rules "ipv4", "any_pre", [
   {"state" => "INVALID", "target" => "DROP", "comment" => "Drop any incomming invalid packet that could not be identified."},
 ]
 
-prepend_rules "ipv4", "icmp", [
+prepend_rules "ipv4", "filter", "icmp", [
   {"chain" => "INPUT", "opts" => ["--icmp-type 0"], "comment" => "ICMP echo-request"},
   {"chain" => "OUTPUT", "opts" => ["--icmp-type 0"]},
   {"chain" => "FORWARD", "opts" => ["--icmp-type 0"]},
@@ -78,14 +78,14 @@ prepend_rules "ipv4", "icmp", [
   {"chain" => "FORWARD", "opts" => ["--icmp-type 12"]}
 ]
 
-prepend_rules "ipv4", "tcp", [
+prepend_rules "ipv4", "filter", "tcp", [
   {"port" => 22, "comment" => "Always allow at least Port 22 (SSH)"}
 ]
 
 # completely disable ipv6 traffic
-node.default["iptables-persistent"]["ipv6"]["chains"]["INPUT"] = "DROP"
-node.default["iptables-persistent"]["ipv6"]["chains"]["OUTPUT"] = "DROP"
-node.default["iptables-persistent"]["ipv6"]["chains"]["FORWARD"] = "DROP"
+node.default["iptables_persistent"]["ipv6"]["filter"]["chains"]["INPUT"] = "DROP"
+node.default["iptables_persistent"]["ipv6"]["filter"]["chains"]["OUTPUT"] = "DROP"
+node.default["iptables_persistent"]["ipv6"]["filter"]["chains"]["FORWARD"] = "DROP"
 
 # Set some kernel parameters for proper ICMP handling
 file '/etc/sysctl.d/60-iptables-persistent.conf' do

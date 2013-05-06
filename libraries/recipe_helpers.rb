@@ -17,9 +17,9 @@
 #
 module IptablesPersistent
   module RecipeHelpers
-    def prepend_rules(protocol, rule_type, rules)
-      existing = node.default["iptables-persistent"][protocol][rule_type]
-      node.default["iptables-persistent"][protocol][rule_type] = rules + existing.to_a
+    def prepend_rules(protocol, table, rule_type, rules)
+      existing = node.default["iptables_persistent"][protocol][table][rule_type]
+      node.default["iptables_persistent"][protocol][table][rule_type] = rules + existing.to_a
     end
   end
 end

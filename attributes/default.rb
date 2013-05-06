@@ -26,24 +26,64 @@ end
 default["iptables_persistent"]["rules_v6"] = "rules.v6"
 
 # Fail open to make sure the system isn't killed when unconfigured
-default["iptables_persistent"]["ipv4"]["chains"]["INPUT"] = "ACCEPT"
-default["iptables_persistent"]["ipv4"]["chains"]["OUTPUT"] = "ACCEPT"
-default["iptables_persistent"]["ipv4"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["filter"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["filter"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["filter"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["filter"]["any_pre"] = []
+default["iptables_persistent"]["ipv4"]["filter"]["tcp"] = []
+default["iptables_persistent"]["ipv4"]["filter"]["udp"] = []
+default["iptables_persistent"]["ipv4"]["filter"]["icmp"] = []
+default["iptables_persistent"]["ipv4"]["filter"]["any_post"] = []
 
-default["iptables_persistent"]["ipv4"]["any_pre"] = []
-default["iptables_persistent"]["ipv4"]["tcp"] = []
-default["iptables_persistent"]["ipv4"]["udp"] = []
-default["iptables_persistent"]["ipv4"]["icmp"] = []
-default["iptables_persistent"]["ipv4"]["any_post"] = []
-default["iptables_persistent"]["ipv6"]["nat"] = []
+default["iptables_persistent"]["ipv4"]["nat"]["chains"]["PREROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["nat"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["nat"]["chains"]["POSTROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["nat"]["any_pre"] = []
+default["iptables_persistent"]["ipv4"]["nat"]["tcp"] = []
+default["iptables_persistent"]["ipv4"]["nat"]["udp"] = []
+default["iptables_persistent"]["ipv4"]["nat"]["any_post"] = []
+
+default["iptables_persistent"]["ipv4"]["mangle"]["chains"]["PREROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["mangle"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["mangle"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["mangle"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["mangle"]["chains"]["POSTROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["mangle"]["any_pre"] = []
+default["iptables_persistent"]["ipv4"]["mangle"]["tcp"] = []
+default["iptables_persistent"]["ipv4"]["mangle"]["udp"] = []
+default["iptables_persistent"]["ipv4"]["mangle"]["any_post"] = []
+
+default["iptables_persistent"]["ipv4"]["raw"]["chains"]["PREROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["raw"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv4"]["raw"]["any_pre"] = []
+default["iptables_persistent"]["ipv4"]["raw"]["tcp"] = []
+default["iptables_persistent"]["ipv4"]["raw"]["udp"] = []
+default["iptables_persistent"]["ipv4"]["raw"]["any_post"] = []
 
 # Fail open to make sure the system isn't killed when unconfigured
-default["iptables_persistent"]["ipv6"]["chains"]["INPUT"] = "ACCEPT"
-default["iptables_persistent"]["ipv6"]["chains"]["OUTPUT"] = "ACCEPT"
-default["iptables_persistent"]["ipv6"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["filter"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["filter"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["filter"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["filter"]["any_pre"] = []
+default["iptables_persistent"]["ipv6"]["filter"]["tcp"] = []
+default["iptables_persistent"]["ipv6"]["filter"]["udp"] = []
+default["iptables_persistent"]["ipv6"]["filter"]["icmp"] = []
+default["iptables_persistent"]["ipv6"]["filter"]["any_post"] = []
 
-default["iptables_persistent"]["ipv6"]["any_pre"] = []
-default["iptables_persistent"]["ipv6"]["tcp"] = []
-default["iptables_persistent"]["ipv6"]["udp"] = []
-default["iptables_persistent"]["ipv6"]["icmp"] = []
-default["iptables_persistent"]["ipv6"]["any_post"] = []
+default["iptables_persistent"]["ipv6"]["mangle"]["chains"]["PREROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["mangle"]["chains"]["INPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["mangle"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["mangle"]["chains"]["FORWARD"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["mangle"]["chains"]["POSTROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["mangle"]["any_pre"] = []
+default["iptables_persistent"]["ipv6"]["mangle"]["tcp"] = []
+default["iptables_persistent"]["ipv6"]["mangle"]["udp"] = []
+default["iptables_persistent"]["ipv6"]["mangle"]["any_post"] = []
+
+default["iptables_persistent"]["ipv6"]["raw"]["chains"]["PREROUTING"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["raw"]["chains"]["OUTPUT"] = "ACCEPT"
+default["iptables_persistent"]["ipv6"]["raw"]["any_pre"] = []
+default["iptables_persistent"]["ipv6"]["raw"]["tcp"] = []
+default["iptables_persistent"]["ipv6"]["raw"]["udp"] = []
+default["iptables_persistent"]["ipv6"]["raw"]["any_post"] = []
+

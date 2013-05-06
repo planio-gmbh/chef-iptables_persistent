@@ -6,31 +6,29 @@
 #
 # Source: iptables_persistent::templates/default/rules.erb
 
-*filter
-<% defaults, default_rules = node["iptables_persistent"][@protocol]["chains"].sort.partition{|default| %w[ACCEPT DROP -].include? default[1]} -%>
+<% node["iptables_persistent"][@protocol].keys.sort.each do |table| %>
+
+#######################################################################
+### <%= table %> table
+*<%= table %>
+<% defaults, default_rules = node["iptables_persistent"][@protocol][table]["chains"].sort.partition{|default| %w[ACCEPT DROP -].include? default[1]} -%>
 <% defaults.each do |chain, default| -%>
-:<%= chain %> <%= default %> [0:0]
+:<%= chain %> <%= default %>
 <%- end %>
 <% default_rules.each do |chain, default| -%>
-:<%= chain %> ACCEPT [0:0] # final rule: <%= default %>
+:<%= chain %> ACCEPT # final rule: <%= default %>
 <%- end %>
 
-<% rules(@protocol).each do |rule| -%>
+<% rules(@protocol, table).each do |rule| -%>
 <%= rule %>
 <%- end %>
+<% if default_rules.any? %>
 
-<%- if default_rules.any? %>### DEFAULT RULES<% end %>
+### DEFAULT RULES
+<%- end %>
 <% default_rules.each do |chain, default| -%>
 -A <%= chain %> -j <%= default %>
-<%- end %>
-
-COMMIT
-
-<% if @protocol == "ipv4" && (nat = nat_rules("ipv4")).any? %>
-*nat
-<% nat.each do |rule| -%>
-<%= rule %>
-<%- end %>
+<% end %>
 
 COMMIT
 <% end %>
