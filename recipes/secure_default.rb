@@ -103,6 +103,11 @@ file '/etc/sysctl.d/60-iptables_persistent.conf' do
   notifies :start, "service[procps]", :immediately
 end
 
+# Remove old file orphaned from 5e291f9
+file '/etc/sysctl.d/60-iptables-persistent.conf' do
+  action :delete
+end
+
 service 'procps' do
   provider Chef::Provider::Service::Upstart if platform?("ubuntu")
   action :nothing
