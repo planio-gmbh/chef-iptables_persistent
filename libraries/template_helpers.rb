@@ -39,6 +39,8 @@ module IptablesPersistent
         when Numeric
           "-A INPUT #{"-p #{force_protocol}" if force_protocol} --dport #{rule.to_i} -j ACCEPT"
         when Hash
+          # workaround for CHEF-3953
+          rule = rule.to_hash
           if force_protocol
             rule["protocol"] = force_protocol
             rule.delete("!protocol")
