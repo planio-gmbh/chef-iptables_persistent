@@ -21,6 +21,9 @@ include_recipe "iptables_persistent"
 
 extend IptablesPersistent::RecipeHelpers
 
+#############################################################################
+# IPV4
+
 node.default["iptables_persistent"]["ipv4"]["filter"]["chains"]["INPUT"] = "DROP" if node["iptables_persistent"]["ipv4"]["filter"]["chains"]["INPUT"] == "ACCEPT"
 node.default["iptables_persistent"]["ipv4"]["filter"]["chains"]["FORWARD"] = "DROP" if node["iptables_persistent"]["ipv4"]["filter"]["chains"]["FORWARD"] == "ACCEPT"
 
@@ -43,7 +46,7 @@ prepend_rules "ipv4", "filter", "any_pre", [
 ]
 
 prepend_rules "ipv4", "filter", "icmp", [
-  {"chain" => "INPUT", "opts" => ["--icmp-type 0"], "comment" => "ICMP echo-request"},
+  {"chain" => "INPUT", "opts" => ["--icmp-type 0"], "comment" => "ICMP echo-reply"},
   {"chain" => "OUTPUT", "opts" => ["--icmp-type 0"]},
   {"chain" => "FORWARD", "opts" => ["--icmp-type 0"]},
 
@@ -63,7 +66,7 @@ prepend_rules "ipv4", "filter", "icmp", [
   {"chain" => "OUTPUT", "opts" => ["--icmp-type 4"]},
   {"chain" => "FORWARD", "opts" => ["--icmp-type 4"]},
 
-  {"chain" => "INPUT", "opts" => ["--icmp-type 8", "-m limit", "--limit 2/s"], "comment" => "ICMP echo-reply, limited to 2 per second"},
+  {"chain" => "INPUT", "opts" => ["--icmp-type 8", "-m limit", "--limit 2/s"], "comment" => "ICMP echo-request, limited to 2 per second"},
   {"chain" => "INPUT", "opts" => ["--icmp-type 8"], "target" => "DROP"},
   {"chain" => "OUTPUT", "opts" => ["--icmp-type 8"]},
   {"chain" => "FORWARD", "opts" => ["--icmp-type 8"]},
