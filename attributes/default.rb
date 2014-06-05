@@ -67,7 +67,7 @@ default["iptables_persistent"]["ipv6"]["filter"]["chains"]["FORWARD"] = "ACCEPT"
 default["iptables_persistent"]["ipv6"]["filter"]["any_pre"] = []
 default["iptables_persistent"]["ipv6"]["filter"]["tcp"] = []
 default["iptables_persistent"]["ipv6"]["filter"]["udp"] = []
-default["iptables_persistent"]["ipv6"]["filter"]["icmp"] = []
+default["iptables_persistent"]["ipv6"]["filter"]["icmpv6"] = []
 default["iptables_persistent"]["ipv6"]["filter"]["any_post"] = []
 
 default["iptables_persistent"]["ipv6"]["mangle"]["chains"]["PREROUTING"] = "ACCEPT"

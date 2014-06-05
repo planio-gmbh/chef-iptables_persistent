@@ -81,10 +81,66 @@ prepend_rules "ipv4", "filter", "tcp", [
   {"port" => 22, "comment" => "Always allow at least Port 22 (SSH)"}
 ]
 
-# completely disable ipv6 traffic
+
+#############################################################################
+# IPV6
+
 node.default["iptables_persistent"]["ipv6"]["filter"]["chains"]["INPUT"] = "DROP" if node["iptables_persistent"]["ipv6"]["filter"]["chains"]["INPUT"] == "ACCEPT"
-node.default["iptables_persistent"]["ipv6"]["filter"]["chains"]["OUTPUT"] = "DROP" if node["iptables_persistent"]["ipv6"]["filter"]["chains"]["OUTPUT"] == "ACCEPT"
 node.default["iptables_persistent"]["ipv6"]["filter"]["chains"]["FORWARD"] = "DROP" if node["iptables_persistent"]["ipv6"]["filter"]["chains"]["FORWARD"] == "ACCEPT"
+
+prepend_rules "ipv6", "filter", "any_pre", [
+  "# Disable processing of any RH0 packet which could allow a ping-pong of packets",
+  {"chain" => "INPUT", "opts" => ["-m", "rt", "--rt-type", 0], "target" => "DROP"},
+  {"chain" => "OUTPUT", "opts" => ["-m", "rt", "--rt-type", 0], "target" => "DROP"},
+  {"chain" => "FORWARD", "opts" => ["-m", "rt", "--rt-type", 0], "target" => "DROP"},
+
+  "# allow any traffic over loopback",
+  {"chain" => "INPUT", "interface" => "lo"},
+  {"chain" => "OUTPUT", "interface" => "lo"},
+
+  {"!interface" => "lo", "destination" => "::1", "target" => "REJECT", "comment" => "Reject any traffic from or to ::1 that doesn't involve the loopback interface."},
+  {"protocol" => "tcp", "state" => "NEW", "opts" => ["! --syn"], "target" => "DROP", "comment" => "Drop suspicious TCP traffic"},
+  {"protocol" => "tcp", "opts" => ["--tcp-flags", "ALL", "ALL"], "target" => "DROP"}, # XMAS packets
+  {"protocol" => "tcp", "opts" => ["--tcp-flags", "ALL", "NONE"], "target" => "DROP"}, # NULL packet
+
+  {"chain" => "INPUT", "state" => %w[ESTABLISHED RELATED], "comment" => "Allow established or related traffic to any chain."},
+  {"chain" => "OUTPUT", "state" => %w[ESTABLISHED RELATED]},
+  {"chain" => "FORWARD", "state" => %w[ESTABLISHED RELATED]},
+
+  {"state" => "INVALID", "target" => "DROP", "comment" => "Drop any incomming invalid packet that could not be identified."},
+]
+
+prepend_rules "ipv6", "filter", "icmpv6", [
+  {"chain" => "INPUT", "opts" => ["--icmpv6-type 128", "-m limit", "--limit 2/s"], "comment" => "ICMP echo-request, limited to 2 per second"},
+  {"chain" => "INPUT", "opts" => ["--icmpv6-type 128"], "target" => "DROP"},
+  {"chain" => "OUTPUT", "opts" => ["--icmpv6-type 128"]},
+  {"chain" => "FORWARD", "opts" => ["--icmpv6-type 128"]},
+
+  {"chain" => "INPUT", "opts" => ["--icmpv6-type 129"], "comment" => "ICMP echo-reply"},
+  {"chain" => "OUTPUT", "opts" => ["--icmpv6-type 129"]},
+  {"chain" => "FORWARD", "opts" => ["--icmpv6-type 129"]},
+
+  {"chain" => "INPUT", "opts" => ["--icmpv6-type 1"], "comment" => "ICMP Destination Unreachable"},
+  {"chain" => "OUTPUT", "opts" => ["--icmpv6-type 1"]},
+  {"chain" => "FORWARD", "opts" => ["--icmpv6-type 1"]},
+
+  {"chain" => "INPUT", "opts" => ["--icmpv6-type 2"], "comment" => "ICMP Packet Too Big"},
+  {"chain" => "OUTPUT", "opts" => ["--icmpv6-type 2"]},
+  {"chain" => "FORWARD", "opts" => ["--icmpv6-type 2"]},
+
+  {"chain" => "INPUT", "opts" => ["--icmpv6-type 3"], "comment" => "ICMP Time Exceeded"},
+  {"chain" => "OUTPUT", "opts" => ["--icmpv6-type 3"]},
+  {"chain" => "FORWARD", "opts" => ["--icmpv6-type 3"]},
+
+  {"chain" => "INPUT", "opts" => ["--icmpv6-type 4"], "comment" => "ICMP Parameter Problem"},
+  {"chain" => "OUTPUT", "opts" => ["--icmpv6-type 4"]},
+  {"chain" => "FORWARD", "opts" => ["--icmpv6-type 4"]},
+]
+
+prepend_rules "ipv6", "filter", "tcp", [
+  {"port" => 22, "comment" => "Always allow at least Port 22 (SSH)"}
+]
+
 
 # Set some kernel parameters for proper ICMP handling
 file '/etc/sysctl.d/60-iptables_persistent.conf' do
