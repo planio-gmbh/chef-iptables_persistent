@@ -44,7 +44,7 @@ Rules can be defined using the following four variants:
 
 #### Integer
 
-If a rule simply consist of an interer, it will result in a rule hat will
+If a rule simply consists of an interer, it will result in a rule hat will
 open this protocol port (typically UDP or TCP) on the INPUT chain for all.
 The generated rule will be similar to this:
 
@@ -52,7 +52,7 @@ The generated rule will be similar to this:
 
 #### Range
 
-If a rule consist of a Range (e.g. `10000..20000`), it will result in a
+If a rule consists of a Range (e.g. `10000..20000`), it will result in a
 rule hat will open the port range on the INPUT chain for all.
 The generated rule will be similar to this:
 
@@ -324,13 +324,13 @@ License and Authors
 Authors: Holger Just, Planio GmbH
 
     Copyright 2013, Planio GmbH
-    
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-    
+
         http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
