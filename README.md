@@ -40,7 +40,7 @@ Attributes
 
 These settings describe the IPv4 firewall rules.
 
-Rules can be defined using the folliwing three variants:
+Rules can be defined using the following four variants:
 
 #### Integer
 
@@ -49,6 +49,14 @@ open this protocol port (typically UDP or TCP) on the INPUT chain for all.
 The generated rule will be similar to this:
 
     -A INPUT -p tcp --dport 22 -j ACCEPT
+
+#### Range
+
+If a rule consist of a Range (e.g. `10000..20000`), it will result in a
+rule hat will open the port range on the INPUT chain for all.
+The generated rule will be similar to this:
+
+    -A INPUT -p tcp --dport 10000:20000 -j ACCEPT
 
 #### String
 
