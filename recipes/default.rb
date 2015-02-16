@@ -51,7 +51,7 @@ ruby_block "restart iptables-persistent" do
   end
 end
 
-service "iptables-persistent" do
+service node["iptables_persistent"]["service_name"] do
   supports :status => true
   status_command "/bin/false"
   action [:enable]
