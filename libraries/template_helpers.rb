@@ -39,7 +39,7 @@ module IptablesPersistent
         when Numeric
           "-A INPUT #{"-p #{force_protocol}" if force_protocol} --dport #{rule.to_i} -j ACCEPT"
         when Range
-          "-A INPUT #{"-p #{force_protocol}" if force_protocol} --dport #{rule.first.to_i}:#{rule.last.to_i} -j ACCEPT"
+          "-A INPUT #{"-p #{force_protocol}" if force_protocol} --dport #{rule.first.to_i}:#{rule.last(1).first.to_i} -j ACCEPT"
         when Hash
           # workaround for CHEF-3953
           rule = rule.to_hash
