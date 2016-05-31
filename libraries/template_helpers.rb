@@ -53,6 +53,18 @@ module IptablesPersistent
       # workaround for CHEF-3953
       rule = rule.to_hash if rule.respond_to?(:to_hash)
 
+      # You can only specify up to 15 ports per multiport rule
+      %w[!port port !source_port source_port].each do |key|
+        next unless rule.has_key?(key)
+
+        value = Array(rule[key])
+        if value.length > 15
+          return value.sort.each_slice(15).map do |slice|
+            expand_hash_rule(rule.merge(key => slice))
+          end.join("\n")
+        end
+      end
+
       if force_protocol
         rule["protocol"] = force_protocol
         rule.delete("!protocol")
