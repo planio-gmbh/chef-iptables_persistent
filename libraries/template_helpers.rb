@@ -73,11 +73,11 @@ module IptablesPersistent
       str << " -m state --state #{Array(rule["state"]).map{|s| s.to_s.upcase}.join(",")}" if rule["state"]
       str << rule_part(rule, "port") do |neg, v|
         ports = Array(v)
-        ports.count > 1 ? " -m multiport#{neg} --dports #{ports.join(",")}" : "#{neg} --dport #{v}"
+        ports.length > 1 ? " -m multiport#{neg} --dports #{ports.join(",")}" : "#{neg} --dport #{v}"
       end
       str << rule_part(rule, "source_port") do |neg, v|
         ports = Array(v)
-        ports.count > 1 ? " -m multiport#{neg} --sports #{ports.join(",")}" : "#{neg} --sport #{v}"
+        ports.length > 1 ? " -m multiport#{neg} --sports #{ports.join(",")}" : "#{neg} --sport #{v}"
       end
       opts = (rule["opts"] || []).to_a.flatten.compact
       str << " " << opts.join(" ") if opts.any?
