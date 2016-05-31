@@ -41,42 +41,48 @@ module IptablesPersistent
         when Range
           "-A INPUT #{"-p #{force_protocol}" if force_protocol} --dport #{rule.first.to_i}:#{rule.last(1).first.to_i} -j ACCEPT"
         when Hash
-          # workaround for CHEF-3953
-          rule = rule.to_hash
-          if force_protocol
-            rule["protocol"] = force_protocol
-            rule.delete("!protocol")
-          end
-          rule["chain"] ||= "INPUT"
-          rule["target"] ||= "ACCEPT"
-
-          str = ""
-          str << "# #{rule["comment"]}\n" if rule["comment"]
-          str << "-A #{rule["chain"]}"
-          str << rule_part(rule, "protocol"){ |neg, v| "#{neg} -p #{v}" }
-          str << rule_part(rule, "source"){ |neg, v| "#{neg} -s #{IPAddress(v).to_string}" }
-          str << rule_part(rule, "destination"){ |neg, v| "#{neg} -d #{IPAddress(v).to_string}" }
-          str << rule_part(rule, "interface") do |neg, v|
-            selector = rule["chain"] == "OUTPUT" ? "-o" : "-i"
-            "#{neg} #{selector} #{v}"
-          end
-          str << " -m state --state #{Array(rule["state"]).map{|s| s.to_s.upcase}.join(",")}" if rule["state"]
-          str << rule_part(rule, "port") do |neg, v|
-            ports = Array(v)
-            ports.count > 1 ? " -m multiport#{neg} --dports #{ports.join(",")}" : "#{neg} --dport #{v}"
-          end
-          str << rule_part(rule, "source_port") do |neg, v|
-            ports = Array(v)
-            ports.count > 1 ? " -m multiport#{neg} --sports #{ports.join(",")}" : "#{neg} --sport #{v}"
-          end
-          opts = (rule["opts"] || []).to_a.flatten.compact
-          str << " " << opts.join(" ") if opts.any?
-          str << " -j #{rule["target"]}"
-          str
+          expand_hash_rule(rule)
         else
           rule
         end
       end
+    end
+
+    # @param rule [#to_hash]
+    def expand_hash_rule(rule, force_protocol=nil)
+      # workaround for CHEF-3953
+      rule = rule.to_hash if rule.respond_to?(:to_hash)
+
+      if force_protocol
+        rule["protocol"] = force_protocol
+        rule.delete("!protocol")
+      end
+      rule["chain"] ||= "INPUT"
+      rule["target"] ||= "ACCEPT"
+
+      str = ""
+      str << "# #{rule["comment"]}\n" if rule["comment"]
+      str << "-A #{rule["chain"]}"
+      str << rule_part(rule, "protocol"){ |neg, v| "#{neg} -p #{v}" }
+      str << rule_part(rule, "source"){ |neg, v| "#{neg} -s #{IPAddress(v).to_string}" }
+      str << rule_part(rule, "destination"){ |neg, v| "#{neg} -d #{IPAddress(v).to_string}" }
+      str << rule_part(rule, "interface") do |neg, v|
+        selector = rule["chain"] == "OUTPUT" ? "-o" : "-i"
+        "#{neg} #{selector} #{v}"
+      end
+      str << " -m state --state #{Array(rule["state"]).map{|s| s.to_s.upcase}.join(",")}" if rule["state"]
+      str << rule_part(rule, "port") do |neg, v|
+        ports = Array(v)
+        ports.count > 1 ? " -m multiport#{neg} --dports #{ports.join(",")}" : "#{neg} --dport #{v}"
+      end
+      str << rule_part(rule, "source_port") do |neg, v|
+        ports = Array(v)
+        ports.count > 1 ? " -m multiport#{neg} --sports #{ports.join(",")}" : "#{neg} --sport #{v}"
+      end
+      opts = (rule["opts"] || []).to_a.flatten.compact
+      str << " " << opts.join(" ") if opts.any?
+      str << " -j #{rule["target"]}"
+      str
     end
 
     def rule_part(rule, key)
