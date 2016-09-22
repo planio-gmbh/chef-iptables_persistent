@@ -66,7 +66,7 @@ prepend_rules "ipv4", "filter", "icmp", [
   {"chain" => "OUTPUT", "opts" => ["--icmp-type 4"]},
   {"chain" => "FORWARD", "opts" => ["--icmp-type 4"]},
 
-  {"chain" => "INPUT", "opts" => ["--icmp-type 8", "-m limit", "--limit 2/s"], "comment" => "ICMP echo-request, limited to 2 per second"},
+  {"chain" => "INPUT", "opts" => ["--icmp-type 8", "-m limit", "--limit 3/s", "--limit-burst 5/s"], "comment" => "ICMP echo-request, limited to 3 per second"},
   {"chain" => "INPUT", "opts" => ["--icmp-type 8"], "target" => "DROP"},
   {"chain" => "OUTPUT", "opts" => ["--icmp-type 8"]},
   {"chain" => "FORWARD", "opts" => ["--icmp-type 8"]},
