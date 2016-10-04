@@ -41,7 +41,7 @@ module IptablesPersistent
         when Range
           "-A INPUT #{"-p #{force_protocol}" if force_protocol} --dport #{rule.first.to_i}:#{rule.last(1).first.to_i} -j ACCEPT"
         when Hash
-          expand_hash_rule(rule)
+          expand_hash_rule(rule, force_protocol)
         else
           rule
         end
@@ -60,7 +60,7 @@ module IptablesPersistent
         value = Array(rule[key])
         if value.length > 15
           return value.sort.each_slice(15).map do |slice|
-            expand_hash_rule(rule.merge(key => slice))
+            expand_hash_rule(rule.merge(key => slice), force_protocol)
           end.join("\n")
         end
       end
