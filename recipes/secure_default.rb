@@ -121,7 +121,14 @@ prepend_rules "ipv6", "filter", "any_pre", [
 ]
 
 prepend_rules "ipv6", "filter", "icmpv6", [
-  {"chain" => "INPUT", "opts" => ["--icmpv6-type 128", "-m limit", "--limit 2/s"], "comment" => "ICMP echo-request, limited to 2 per second"},
+  {
+    "chain" => "INPUT",
+    "opts" => [
+      "--icmpv6-type 128", "-m hashlimit", "--hashlimit-name icmp_ping",
+      "--hashlimit-mode srcip", "--hashlimit-upto 3/second", "--hashlimit-burst 5"
+    ],
+    "comment" => "ICMP echo-request, limited to 3 per second"
+  },
   {"chain" => "INPUT", "opts" => ["--icmpv6-type 128"], "target" => "DROP"},
   {"chain" => "OUTPUT", "opts" => ["--icmpv6-type 128"]},
   {"chain" => "FORWARD", "opts" => ["--icmpv6-type 128"]},
