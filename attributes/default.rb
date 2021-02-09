@@ -17,22 +17,10 @@
 #
 
 default["iptables_persistent"]["dir"] = "/etc/iptables"
-if platform == "debian" && node["platform_version"].to_f < 7 ||
-   platform == "ubuntu" && node["platform_version"].to_f < 12
-  default["iptables_persistent"]["rules_v4"] = "rules"
-else
-  default["iptables_persistent"]["rules_v4"] = "rules.v4"
-end
+default["iptables_persistent"]["rules_v4"] = "rules.v4"
 default["iptables_persistent"]["rules_v6"] = "rules.v6"
 
-# In Debian Jessie and Ubuntu Utopic, iptables-persistent became a plugin to
-# the netfilter-persistent.
-if platform == "debian" && node["platform_version"].to_f < 8 ||
-   platform == "ubuntu" && node["platform_version"].to_f < 14.1
-  default["iptables_persistent"]["service_name"] = "iptables-persistent"
-else
-  default["iptables_persistent"]["service_name"] = "netfilter-persistent"
-end
+default["iptables_persistent"]["service_name"] = "netfilter-persistent"
 
 # Fail open to make sure the system isn't killed when unconfigured
 default["iptables_persistent"]["ipv4"]["filter"]["chains"]["INPUT"] = "ACCEPT"
@@ -95,4 +83,3 @@ default["iptables_persistent"]["ipv6"]["raw"]["any_pre"] = []
 default["iptables_persistent"]["ipv6"]["raw"]["tcp"] = []
 default["iptables_persistent"]["ipv6"]["raw"]["udp"] = []
 default["iptables_persistent"]["ipv6"]["raw"]["any_post"] = []
-
