@@ -87,11 +87,6 @@ prepend_rules "ipv4", "filter", "icmp", [
   {"chain" => "FORWARD", "opts" => ["--icmp-type 12"]}
 ]
 
-prepend_rules "ipv4", "filter", "tcp", [
-  {"port" => 22, "comment" => "Always allow at least Port 22 (SSH)"}
-]
-
-
 #############################################################################
 # IPV6
 
@@ -154,10 +149,37 @@ prepend_rules "ipv6", "filter", "icmpv6", [
   {"chain" => "FORWARD", "opts" => ["--icmpv6-type 4"]},
 ]
 
-prepend_rules "ipv6", "filter", "tcp", [
-  {"port" => 22, "comment" => "Always allow at least Port 22 (SSH)"}
-]
+###############################################################################
+# SSH
 
+if node["iptables_persistent"]["secure_default"]["ssh"]["ports"]&.any?
+  ssh_rules = []
+  if node["iptables_persistent"]["secure_default"]["ssh"]["limit"]
+    ssh_rules << "# ssh - limit to at most #{node["iptables_persistent"]["secure_default"]["ssh"]["limit"]} concurrent connections per source IP"
+    ssh_rules += limit_active_rules(
+      { "port" => node["iptables_persistent"]["secure_default"]["ssh"]["ports"] },
+      limit: node["iptables_persistent"]["secure_default"]["ssh"]["limit"]
+    )
+  end
+
+  if node["iptables_persistent"]["secure_default"]["ssh"]["limit_hits"]
+    ssh_rules << "# ssh - limit to #{node["iptables_persistent"]["secure_default"]["ssh"]["limit_hits"]} new connections / #{node["iptables_persistent"]["secure_default"]["ssh"]["limit_seconds"]} seconds / source IP"
+    ssh_rules += limit_rate_rules(
+      { "port" => node["iptables_persistent"]["secure_default"]["ssh"]["ports"] },
+      name: "SSH",
+      limit: node["iptables_persistent"]["secure_default"]["ssh"]["limit_hits"],
+      seconds: node["iptables_persistent"]["secure_default"]["ssh"]["limit_seconds"]
+    )
+  else
+    ssh_rules << { "port" => node["iptables_persistent"]["secure_default"]["ssh"]["ports"] }
+  end
+
+  prepend_rules "ipv4", "filter", "tcp", ssh_rules
+  prepend_rules "ipv6", "filter", "tcp", ssh_rules
+end
+
+#############################################################################
+# Various Settings
 
 # Set some kernel parameters for proper ICMP handling
 file '/etc/sysctl.d/60-iptables_persistent.conf' do
